@@ -44,6 +44,7 @@ static int DrawModes[] = {
 };
 
 static int g_w, g_h;    // code written by PB, 2019
+float xmax, ymax;
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // HW1a::HW1a:
@@ -92,7 +93,7 @@ HW1a::resizeGL(int w, int h)
     // Code written by PB 2019
     // NOTE: don't create viewport here, do it in paintGL()
     // NOTE: use global variable to pass w,h to paintGL()
-    float xmax, ymax;
+    // float xmax, ymax;
     float ar = (float) w/h;
     if(ar > 1.0) {
         xmax = ar;
@@ -106,10 +107,10 @@ HW1a::resizeGL(int w, int h)
     g_h = h;
     // glViewport(0, 0, w, h);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    // glMatrixMode(GL_PROJECTION);
+    // glLoadIdentity();
 
-    glOrtho(-xmax, xmax, -ymax, ymax, -1.0, 1.0);
+    // glOrtho(-xmax, xmax, -ymax, ymax, -1.0, 1.0);
     // g_w = w;
     // g_h = h;
     // End PB code
@@ -136,32 +137,48 @@ HW1a::paintGL()
             // TODO: glViewport divsion math...
             int w = g_w/3;
             int h = g_h/3;
-            glViewport( x*w, y*h, (x+1)*w, (y+1)*h);
+            // glViewport( x*100, y*100, (x+1)*100, (y+1)*100);
+            glViewport( (int)x*w, (int)y*h, (int)(x+1)*w, (int)(y+1)*h);
 
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(-xmax, xmax, -ymax, ymax, -1.0, 1.0);
+
+            // std::printf("xl= %4.i\t\tyl= %4.i\t\txr= %4.i\t\tyr=%4.i\n",
+            //            (int)x*w, (int)y*h, (int)(x+1)*w, (int)(y+1)*h); 
+
+                        
             glBegin(DrawModes[8]); // x+y]);
                 int i = 0, j = 1;
-                while(i < 16) {
-                    //glVertex2f(Vertices[i], Vertices[j]); 
+                while(i < 32) {
+                    glVertex2f(Vertices[i], Vertices[j]); 
                     i += 2;
-                    //j += 2;
-                    // TODO: for loop this....
-                    glVertex2f(Vertices[ 0], Vertices[ 1]); 
-                    glVertex2f(Vertices[ 2], Vertices[ 3]); 
-                    glVertex2f(Vertices[ 4], Vertices[ 5]); 
-                    glVertex2f(Vertices[ 6], Vertices[ 7]); 
-                    glVertex2f(Vertices[ 8], Vertices[ 9]); 
-                    glVertex2f(Vertices[10], Vertices[11]); 
-                    glVertex2f(Vertices[12], Vertices[13]); 
-                    glVertex2f(Vertices[14], Vertices[15]); 
-                    glVertex2f(Vertices[16], Vertices[17]); 
-                    glVertex2f(Vertices[18], Vertices[19]); 
-                    glVertex2f(Vertices[20], Vertices[21]); 
-                    glVertex2f(Vertices[22], Vertices[23]); 
-                    glVertex2f(Vertices[24], Vertices[25]); 
-                    glVertex2f(Vertices[26], Vertices[27]); 
-                    glVertex2f(Vertices[28], Vertices[29]); 
-                    glVertex2f(Vertices[30], Vertices[31]); 
+                    j += 2;
                 }
+                /*
+                for (int i=0; i<32; i++) {
+                    glVertex2f(Vertices[i++], Vertices[i]); 
+                    // printf("Vertices[%2.i], Vertices[%2.i]\n", i++, i);
+                }
+
+                // TODO: for loop this....
+                glVertex2f(Vertices[ 0], Vertices[ 1]); 
+                glVertex2f(Vertices[ 2], Vertices[ 3]); 
+                glVertex2f(Vertices[ 4], Vertices[ 5]); 
+                glVertex2f(Vertices[ 6], Vertices[ 7]); 
+                glVertex2f(Vertices[ 8], Vertices[ 9]); 
+                glVertex2f(Vertices[10], Vertices[11]); 
+                glVertex2f(Vertices[12], Vertices[13]); 
+                glVertex2f(Vertices[14], Vertices[15]); 
+                glVertex2f(Vertices[16], Vertices[17]); 
+                glVertex2f(Vertices[18], Vertices[19]); 
+                glVertex2f(Vertices[20], Vertices[21]); 
+                glVertex2f(Vertices[22], Vertices[23]); 
+                glVertex2f(Vertices[24], Vertices[25]); 
+                glVertex2f(Vertices[26], Vertices[27]); 
+                glVertex2f(Vertices[28], Vertices[29]); 
+                glVertex2f(Vertices[30], Vertices[31]); 
+                */
             glEnd();
             glFlush();
             /*
