@@ -9,7 +9,6 @@
 // ===============================================================
 
 #include "HW1a.h"
-#include <stdio.h>
 
 // init array of 16 vertices for letter 'P'
 float Vertices[] = {
@@ -43,8 +42,7 @@ static int DrawModes[] = {
 	GL_POLYGON
 };
 
-static int g_w, g_h;    // code written by PB, 2019
-float xmax, ymax;
+static int g_w, g_h;    // XXX code written by PB, 2019
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // HW1a::HW1a:
@@ -67,7 +65,7 @@ HW1a::HW1a(const QGLFormat &glf, QWidget *parent)
 void
 HW1a::initializeGL()
 {
-    // Code written by PB 2019
+    // XXX Code written by PB 2019
     // init vertex and color buffers
     initializeGLFunctions();
 
@@ -76,7 +74,7 @@ HW1a::initializeGL()
 
     // set foreground color (default opacity):
     glColor3f(1.0f, 1.0f, 1.0f);
-    // End PB code
+    // XXX End PB code
 }
 
 
@@ -90,10 +88,11 @@ HW1a::initializeGL()
 void
 HW1a::resizeGL(int w, int h)
 {
-    // Code written by PB 2019
-    // NOTE: don't create viewport here, do it in paintGL()
-    // NOTE: use global variable to pass w,h to paintGL()
-    // float xmax, ymax;
+
+    // XXX Code written by PB 2019
+    /* determine aspect ratio (ar), set max width (xmax) & max height (ymax) for
+       viewing area: */
+    int xmax, ymax;
     float ar = (float) w/h;
     if(ar > 1.0) {
         xmax = ar;
@@ -103,17 +102,14 @@ HW1a::resizeGL(int w, int h)
         ymax = 1/ar;
     }
 
-    g_w = w;
-    g_h = h;
-    // glViewport(0, 0, w, h);
+    // pass w,h to global variables g_w, g_h
+    g_w = w; g_h = h;
 
-    // glMatrixMode(GL_PROJECTION);
-    // glLoadIdentity();
-
-    // glOrtho(-xmax, xmax, -ymax, ymax, -1.0, 1.0);
-    // g_w = w;
-    // g_h = h;
-    // End PB code
+    // Set projection matrix, load orthographic projection into matrix
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-xmax, xmax, -ymax, ymax, -1.0, 1.0);
+    // XXX End PB code
 }
 
 
@@ -126,83 +122,29 @@ HW1a::resizeGL(int w, int h)
 void
 HW1a::paintGL()
 {
-    // Code written by PB 2019
+    // XXX Code written by PB 2019
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    // divide w,h into 3 (for 3x3 matrix of viewports)
+    int w = g_w/3;
+    int h = g_h/3;
 
+    int mode = 0;  // offset for selecting mode in DrawModesp[]
+
+    /*  iterate across x,y coords of window, placing new viewports with a unique GL 
+        drawing in each new viewport created, utilizing the same pairs of vertex
+        coordinates */
     for (int y=0; y<3; y++) {
         for (int x=0; x<3; x++) {
-            // TODO: glViewport divsion math...
-            int w = g_w/3;
-            int h = g_h/3;
-            // glViewport( x*100, y*100, (x+1)*100, (y+1)*100);
-            glViewport( (int)x*w, (int)y*h, (int)(x+1)*w, (int)(y+1)*h);
-
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glOrtho(-xmax, xmax, -ymax, ymax, -1.0, 1.0);
-
-            // std::printf("xl= %4.i\t\tyl= %4.i\t\txr= %4.i\t\tyr=%4.i\n",
-            //            (int)x*w, (int)y*h, (int)(x+1)*w, (int)(y+1)*h); 
-
-                        
-            glBegin(DrawModes[8]); // x+y]);
-                int i = 0, j = 1;
-                while(i < 32) {
-                    glVertex2f(Vertices[i], Vertices[j]); 
-                    i += 2;
-                    j += 2;
-                }
-                /*
-                for (int i=0; i<32; i++) {
-                    glVertex2f(Vertices[i++], Vertices[i]); 
-                    // printf("Vertices[%2.i], Vertices[%2.i]\n", i++, i);
-                }
-
-                // TODO: for loop this....
-                glVertex2f(Vertices[ 0], Vertices[ 1]); 
-                glVertex2f(Vertices[ 2], Vertices[ 3]); 
-                glVertex2f(Vertices[ 4], Vertices[ 5]); 
-                glVertex2f(Vertices[ 6], Vertices[ 7]); 
-                glVertex2f(Vertices[ 8], Vertices[ 9]); 
-                glVertex2f(Vertices[10], Vertices[11]); 
-                glVertex2f(Vertices[12], Vertices[13]); 
-                glVertex2f(Vertices[14], Vertices[15]); 
-                glVertex2f(Vertices[16], Vertices[17]); 
-                glVertex2f(Vertices[18], Vertices[19]); 
-                glVertex2f(Vertices[20], Vertices[21]); 
-                glVertex2f(Vertices[22], Vertices[23]); 
-                glVertex2f(Vertices[24], Vertices[25]); 
-                glVertex2f(Vertices[26], Vertices[27]); 
-                glVertex2f(Vertices[28], Vertices[29]); 
-                glVertex2f(Vertices[30], Vertices[31]); 
-                */
+            glViewport(x*w, y*h, w, h);
+            glBegin(DrawModes[mode++]);
+                for(int i=0; i<32; i+=2)
+                    glVertex2f(Vertices[i], Vertices[i+1]); 
             glEnd();
             glFlush();
-            /*
-            float Vertices[] = {
-                -0.5f , -0.75f,
-                -0.5f , -0.5f,
-                -0.5f , -0.25f,
-                -0.5f ,  0.0f,
-                -0.5f ,  0.25f,
-                -0.5f ,  0.5f,
-                -0.25f,  0.75f,
-                 0.0f ,  0.75f,
-                 0.25f,  0.75f,
-                 0.5f ,  0.75f,
-                 0.75f,  0.5f,
-                 0.75f,  0.25f,
-                 0.5f ,  0.0f,
-                 0.25f,  0.0f,
-                 0.0f ,  0.0f,
-                -0.25f,  0.0f
-            }; */
         }
     }
-    // End PB code
+    // XXX End PB code
 }
 
 

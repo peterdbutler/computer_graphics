@@ -55,8 +55,7 @@ HW1b::initializeGL()
 void
 HW1b::resizeGL(int w, int h)
 {
-	// PUT YOUR CODE HERE
-    // TODO: comment code
+    // XXX: Code written by PB 2019
     float ar = (float) w/h;
 
     float xmax, ymax;
@@ -72,7 +71,7 @@ HW1b::resizeGL(int w, int h)
 
     glLoadIdentity();
     glOrtho(-xmax, xmax, -ymax, ymax, -1.0, 1.0);
-    // END 
+    // XXX: End PB code
 }
 
 
@@ -85,19 +84,18 @@ HW1b::resizeGL(int w, int h)
 void
 HW1b::paintGL()
 {
-	// PUT YOUR CODE HERE
-    // TODO: coomment code
+    // XXX: Code written by PB 2019
     glClear(GL_COLOR_BUFFER_BIT);
 
     for(uint i=0, j=0; i<m_colors.size(); ++i) {
         glColor3f(m_colors[i][0], m_colors[i][1], m_colors[i][2]);
-
         glBegin(GL_TRIANGLES);
             glVertex2f(m_points[j][0], m_points[j][1]); j++;
             glVertex2f(m_points[j][0], m_points[j][1]); j++;
             glVertex2f(m_points[j][0], m_points[j][1]); j++;
         glEnd();
     }
+    // XXX: End PB code
 }
 
 
@@ -234,8 +232,7 @@ HW1b::initBuffers()
 void
 HW1b::divideTriangle(vec2 a, vec2 b, vec2 c, int count)
 {
-	// PUT YOUR CODE HERE
-    // TODO: comment code
+    // XXX: Code written by PB 2019
     if(count > 0) {
         vec2 ab = vec2((a[0]+b[0])/2.0, (a[1]+b[1]) / 2.0);
         vec2 ac = vec2((a[0]+c[0])/2.0, (a[1]+c[1]) / 2.0);
@@ -245,6 +242,7 @@ HW1b::divideTriangle(vec2 a, vec2 b, vec2 c, int count)
         divideTriangle( c, ac, bc, count-1);
         divideTriangle(ab, ac, bc, count-1);
     } else triangle(a, b, c);
+    // XXX End PB code
 }
 
 
