@@ -58,8 +58,8 @@ HW2b::initializeGL()
     glGenBuffers(1, &m_vertexBuffer);
     glGenBuffers(1, &m_colorBuffer);
 
-    m_modelview.setToIdentity();
-    m_projection.setToIdentity();
+    // m_modelview.setToIdentity();
+    // m_projection.setToIdentity();
     // XXX: End Added
 
 	// initialize vertex buffer and write positions to vertex shader
@@ -136,6 +136,7 @@ HW2b::paintGL()
     // Enumerations: MV (== 'ModelView), PROJ, THETA, SUBDIV, TWIST 
     glUniformMatrix4fv(m_uniform[HW2B][MV], 1, GL_FALSE, m_modelview.constData());
     glUniformMatrix4fv(m_uniform[HW2B][PROJ], 1, GL_FALSE, m_projection.constData());
+    glUniform1f(m_uniform[HW2B][THETA], m_theta);
     /*
     glUniform1i(m_uniform[HW2B][SUBDIV], m_subdivisions);
     glUniform1f(m_uniform[HW2B][THETA], m_theta);
