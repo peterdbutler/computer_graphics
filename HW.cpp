@@ -101,8 +101,9 @@ HW::initShader(int shaderID, QString vshaderName, QString fshaderName, UniformMa
 		exit(-1);
 	}
 
-	// bind the attribute variable in the glsl program with a generic vertex attribute index;
-	// values provided via ATTRIB_VERTEX will modify the value of "a_position")
+	// bind the attribute variable in the glsl program with a generic 
+    // vertex attribute index; values provided via ATTRIB_VERTEX will
+	// modify the value of "a_position")
 	glBindAttribLocation(m_program[shaderID].programId(), ATTRIB_VERTEX,	"a_Position");
 	glBindAttribLocation(m_program[shaderID].programId(), ATTRIB_COLOR,	"a_Color"   );
 	glBindAttribLocation(m_program[shaderID].programId(), ATTRIB_TEXCOORD,	"a_TexCoord");

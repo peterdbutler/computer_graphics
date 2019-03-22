@@ -42,7 +42,7 @@ static int DrawModes[] = {
 	GL_POLYGON
 };
 
-static int g_w, g_h;    // XXX code written by PB, 2019
+static int m_winW, m_winH;    // XXX code written by PB, 2019
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // HW1a::HW1a:
@@ -102,8 +102,8 @@ HW1a::resizeGL(int w, int h)
         ymax = 1/ar;
     }
 
-    // pass w,h to global variables g_w, g_h
-    g_w = w; g_h = h;
+    // pass w,h to global variables m_winW, m_winH
+    m_winW = w; m_winH = h;
 
     // Set projection matrix, load orthographic projection into matrix
     glMatrixMode(GL_PROJECTION);
@@ -126,8 +126,8 @@ HW1a::paintGL()
     glClear(GL_COLOR_BUFFER_BIT);
 
     // divide w,h into 3 (for 3x3 matrix of viewports)
-    int w = g_w/3;
-    int h = g_h/3;
+    int w = m_winW/3;
+    int h = m_winH/3;
 
     int mode = 0;  // offset for selecting mode in DrawModesp[]
 

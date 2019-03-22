@@ -54,6 +54,14 @@ HW2b::initializeGL()
 	// init vertex and fragment shaders
 	initShaders();
 
+    // NOTE: PB Added
+    glGenBuffers(1, &m_vertexBuffer);
+    glGenBuffers(1, &m_colorBuffer);
+
+    m_modelview.setToIdentity();
+    m_projection.setToIdentity();
+    // XXX: End Added
+
 	// initialize vertex buffer and write positions to vertex shader
 	initVertexBuffer();
 
@@ -73,7 +81,24 @@ HW2b::initializeGL()
 void
 HW2b::resizeGL(int w, int h)
 {
-	// PUT YOUR CODE HERE
+    // XXX: Code written by PB 2019
+    m_winH = h; m_winW = w;
+
+    float xmax, ymax;
+    float ar = (float) w/h;
+    if (ar > 1.0) {
+        xmax = ar;
+        ymax = 1.;
+    } else {
+        xmax = 1.;
+        ymax = 1/ar;
+    }
+
+    glViewport(0, 0, w, h);
+
+	m_projection.setToIdentity();
+    m_projection.ortho(-xmax, xmax, -ymax, ymax, -1.0, 1.0); 
+    // XXX: End PB Code
 }
 
 
@@ -86,7 +111,44 @@ HW2b::resizeGL(int w, int h)
 void
 HW2b::paintGL()
 {
-	// PUT YOUR CODE HERE
+	// TODO: PUT YOUR CODE HERE
+    // XXX: Code written by PB 2019
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // NOTE: TESTIN OUT:
+    
+    // pipe vertexBuffer to GPU:
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+    glEnableVertexAttribArray(ATTRIB_VERTEX);
+    glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, false, 0, NULL);
+
+    // pipe colorBuffer to GPU:
+    glBindBuffer(GL_ARRAY_BUFFER, m_colorBuffer);
+    glEnableVertexAttribArray(ATTRIB_VERTEX);
+    glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, false, 0, NULL);
+
+    // "Installs a program object as part of current rendering state:
+    glUseProgram(m_program[HW2B].programId());
+
+    // glUniformMatrix(GLint Location, GLsizei count, GLboolean transpose, const
+    //                  GLfloat *value)
+    // Enumerations: MV (== 'ModelView), PROJ, THETA, SUBDIV, TWIST 
+    glUniformMatrix4fv(m_uniform[HW2B][MV], 1, GL_FALSE, m_modelview.constData());
+    glUniformMatrix4fv(m_uniform[HW2B][PROJ], 1, GL_FALSE, m_projection.constData());
+    /*
+    glUniform1i(m_uniform[HW2B][SUBDIV], m_subdivisions);
+    glUniform1f(m_uniform[HW2B][THETA], m_theta);
+    glUniform1i(m_uniform[HW2B][TWIST], m_twist);
+    */
+
+    // Draw Arrays passed to the vertex Shader's variables 
+    glDrawArrays(GL_TRIANGLES, 0, 3*(m_subdivisions+1) );
+
+    glUseProgram(0);
+    glDisableVertexAttribArray(ATTRIB_COLOR);
+    glDisableVertexAttribArray(ATTRIB_VERTEX);
+    // XXX: End PB Code
 }
 
 
@@ -265,7 +327,21 @@ HW2b::initVertexBuffer()
 void
 HW2b::divideTriangle(vec2 a, vec2 b, vec2 c, int count)
 {
-	// PUT YOUR CODE HERE
+	// TODO: PUT YOUR CODE HERE
+    // XXX: Code written by PB 2019
+    if (count > 0) {
+        // find the midpoint of each line segment:
+        vec2 ab = vec2((a[0] + b[0])/2.0, (a[1]+b[1])/2.0);
+        vec2 ac = vec2((a[0] + c[0])/2.0, (a[1]+c[1])/2.0);
+        vec2 bc = vec2((b[0] + c[0])/2.0, (b[1]+c[1])/2.0);
+
+        // construct sub triagles from the midpoints:
+        divideTriangle( a, ab, ac, count-1);
+        divideTriangle( b, ab, bc, count-1);
+        divideTriangle( c, ac, bc, count-1);
+        divideTriangle(ab, ac, bc, count-1);
+    } else triangle(a, b, c);
+    // XXX: End PB Code
 }
 
 

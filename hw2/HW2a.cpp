@@ -36,7 +36,6 @@ HW2a::HW2a(const QGLFormat &glf, QWidget *parent) : HW(glf, parent)
 {
 }
 
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // HW2a::initializeGL:
 //
@@ -71,7 +70,24 @@ HW2a::initializeGL()
 void
 HW2a::resizeGL(int w, int h)
 {
-	// PUT YOUR CODE HERE
+    // XXX: Code written by PB 2019
+    // declare, math out some variables
+    m_winW = w; m_winH = h;
+    float xmax, ymax;
+    float ar = (float) w/h;
+
+    if (ar > 1.0 ) {
+        xmax = ar;
+        ymax = 1.;
+    }
+    else {
+        xmax = 1.;
+        ymax = 1./ar;
+    }
+
+    m_projection.setToIdentity();
+    m_projection.ortho(-xmax, xmax, -ymax, ymax, -1.0, 1.0);
+    // XXX: End PB Code
 }
 
 
@@ -111,7 +127,20 @@ HW2a::paintGL()
 	int h = m_winH / 3;
 
 	// use glsl program
-	// PUT YOUR CODE HERE
+    // XXX: Code written by PB 2019
+    glUseProgram(m_program[HW2A].programId());
+
+    glUniformMatrix4fv( m_uniform[HW2A][PROJ ], 
+                        1,
+                        GL_FALSE,
+                        m_projection.constData()
+                      );
+
+    for (int i = 0; i < 9; i++) {
+        glViewport( (i%3)*w, (i/3)*h, w, h);
+        glDrawArrays(DrawModes[i], 0, m_vertNum);
+    }
+    // XXX: End PB Code
 
 	// disable vertex shader point size adjustment
 	glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
