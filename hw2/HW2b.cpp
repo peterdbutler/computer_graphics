@@ -8,6 +8,7 @@
 // ===============================================================
 
 #include "HW2b.h"
+#include <cmath>
 
 // shader ID
 enum {HW2B};
@@ -54,16 +55,17 @@ HW2b::initializeGL()
 	// init vertex and fragment shaders
 	initShaders();
 
-    // NOTE: PB Added
+    /*  // NOTE: PB Added
     glGenBuffers(1, &m_vertexBuffer);
     glGenBuffers(1, &m_colorBuffer);
 
-    // m_modelview.setToIdentity();
     // m_projection.setToIdentity();
-    // XXX: End Added
+    // XXX: End Added   */
 
 	// initialize vertex buffer and write positions to vertex shader
 	initVertexBuffer();
+
+    //m_modelview.setToIdentity(); // NOTE: PB ADDED
 
 	// init state variables
 	glClearColor(0.0, 0.0, 0.0, 0.0);	// set background color
@@ -82,8 +84,6 @@ void
 HW2b::resizeGL(int w, int h)
 {
     // XXX: Code written by PB 2019
-    m_winH = h; m_winW = w;
-
     float xmax, ymax;
     float ar = (float) w/h;
     if (ar > 1.0) {
@@ -111,40 +111,32 @@ HW2b::resizeGL(int w, int h)
 void
 HW2b::paintGL()
 {
-	// TODO: PUT YOUR CODE HERE
     // XXX: Code written by PB 2019
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // NOTE: TESTIN OUT:
-    
-    // pipe vertexBuffer to GPU:
-
+    /* Bind buffer, creates pipe between CPU (m_vertexBuffer) abd GPU
+       (GL_ARRAY_BUFFER)    */
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
     glEnableVertexAttribArray(ATTRIB_VERTEX);
     glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, false, 0, NULL);
 
     // pipe colorBuffer to GPU:
     glBindBuffer(GL_ARRAY_BUFFER, m_colorBuffer);
-    glEnableVertexAttribArray(ATTRIB_VERTEX);
-    glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, false, 0, NULL);
+    glEnableVertexAttribArray(ATTRIB_COLOR);
+    glVertexAttribPointer(ATTRIB_COLOR, 3, GL_FLOAT, false, 0, NULL);
 
     // "Installs a program object as part of current rendering state:
     glUseProgram(m_program[HW2B].programId());
 
-    // glUniformMatrix(GLint Location, GLsizei count, GLboolean transpose, const
-    //                  GLfloat *value)
-    // Enumerations: MV (== 'ModelView), PROJ, THETA, SUBDIV, TWIST 
     glUniformMatrix4fv(m_uniform[HW2B][MV], 1, GL_FALSE, m_modelview.constData());
     glUniformMatrix4fv(m_uniform[HW2B][PROJ], 1, GL_FALSE, m_projection.constData());
     glUniform1f(m_uniform[HW2B][THETA], m_theta);
     /*
     glUniform1i(m_uniform[HW2B][SUBDIV], m_subdivisions);
-    glUniform1f(m_uniform[HW2B][THETA], m_theta);
     glUniform1i(m_uniform[HW2B][TWIST], m_twist);
     */
 
-    // Draw Arrays passed to the vertex Shader's variables 
-    glDrawArrays(GL_TRIANGLES, 0, 3*(m_subdivisions+1) );
+    glDrawArrays(GL_TRIANGLES, 0, 3*pow(4, m_subdivisions));
 
     glUseProgram(0);
     glDisableVertexAttribArray(ATTRIB_COLOR);
@@ -302,8 +294,14 @@ HW2b::initVertexBuffer()
 
 	// recursively subdivide triangle into triangular facets;
 	// store vertex positions and colors in m_points and m_colors, respectively
-	divideTriangle(vertices[0], vertices[1], vertices[2], m_subdivisions);
+    divideTriangle(vertices[0], vertices[1], vertices[2], m_subdivisions);
 	m_numPoints = (int) m_points.size();		// save number of vertices
+
+    // XXX: Code written by PB 2019
+    // Generate Buffers:
+    glGenBuffers(1, &m_vertexBuffer);
+    glGenBuffers(1, &m_colorBuffer);
+    // XXX: End PB Code
 
 	// bind vertex buffer to the GPU and copy the vertices from CPU to GPU
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
@@ -419,7 +417,7 @@ HW2b::changeSubdiv(int subdivisions)
 	m_spinBoxSubdiv->blockSignals(false);
 
 	// init vars
-	m_subdivisions = subdivisions;
+	m_subdivisions = subdivisions; 
 
 	// compute new vertices and colors
 	initVertexBuffer();

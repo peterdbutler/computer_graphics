@@ -42,7 +42,7 @@ static int DrawModes[] = {
 	GL_POLYGON
 };
 
-static int m_winW, m_winH;    // XXX code written by PB, 2019
+
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // HW1a::HW1a:
@@ -92,7 +92,7 @@ HW1a::resizeGL(int w, int h)
     // XXX Code written by PB 2019
     /* determine aspect ratio (ar), set max width (xmax) & max height (ymax) for
        viewing area: */
-    int xmax, ymax;
+    float xmax, ymax;
     float ar = (float) w/h;
     if(ar > 1.0) {
         xmax = ar;

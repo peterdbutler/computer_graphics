@@ -257,9 +257,9 @@ HW1b::triangle(vec2 a, vec2 b, vec2 c)
 {
 	// init color
 	if(m_updateColor) {
-		m_colors.push_back(vec3((float) rand()/RAND_MAX,
-					(float) rand()/RAND_MAX,
-					(float) rand()/RAND_MAX));
+		m_colors.push_back(vec3( (float) rand()/RAND_MAX,
+					             (float) rand()/RAND_MAX,
+					             (float) rand()/RAND_MAX) );
 	}
 
 	// init geometry
