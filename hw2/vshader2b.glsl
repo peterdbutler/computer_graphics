@@ -7,21 +7,30 @@ out vec4 v_Color;           // varying variable for passing color to fragment sh
 
 // NOTE: modelview is for transformations
 uniform mat4 u_Modelview;   // uniform variable for passing modelview  matrix
-// NOTE: projection is for displaying the world coords?
 uniform mat4 u_Projection;  // uniform variable for passing projection matrix
 uniform float u_Theta;      // Theta parameter
 uniform int u_Twist;        // Twist flag
 
+// XXX: Code written by PB 2019
+vec2 rotTwist(vec2 p) {
+    float d = sqrt(p.x*p.x + p.y*p.y);
+    float sinTheta = sin(d*u_Theta);
+    float cosTheta = cos(d*u_Theta);
+
+    vec2 q = vec2(p.x*cosTheta - p.y*sinTheta, p.x*sinTheta + p.y*cosTheta);
+    return q;
+}
+
 void main() 
 {
-    // XXX: Code written by PB 2019
-    //gl_Position = u_Projection * (u_Modelview * cos(u_Theta)) * vec4(a_Position, 0, 1);
-    gl_Position = u_Projection * u_Modelview * vec4(a_Position, 0, 1);
+    if (bool(u_Twist) == true) {
+        vec2 twistPos = rotTwist(a_Position);
+        gl_Position = u_Projection * u_Modelview * vec4(twistPos, 0, 1);
+    } else {
+        gl_Position = u_Projection * u_Modelview * vec4(a_Position, 0, 1);
+    }
 
     // pass color on to fragment shader:
-    // TODO: issues with the color
-    //v_Color = vec4(1.0, 0, 0, 1);
     v_Color = vec4(a_Color, 1.0);
-
-    // XXX: End PB Code
 }
+// XXX: End PB Code

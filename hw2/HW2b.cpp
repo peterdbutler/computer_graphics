@@ -55,17 +55,8 @@ HW2b::initializeGL()
 	// init vertex and fragment shaders
 	initShaders();
 
-    /*  // NOTE: PB Added
-    glGenBuffers(1, &m_vertexBuffer);
-    glGenBuffers(1, &m_colorBuffer);
-
-    // m_projection.setToIdentity();
-    // XXX: End Added   */
-
 	// initialize vertex buffer and write positions to vertex shader
 	initVertexBuffer();
-
-    //m_modelview.setToIdentity(); // NOTE: PB ADDED
 
 	// init state variables
 	glClearColor(0.0, 0.0, 0.0, 0.0);	// set background color
@@ -114,7 +105,7 @@ HW2b::paintGL()
     // XXX: Code written by PB 2019
     glClear(GL_COLOR_BUFFER_BIT);
 
-    /* Bind buffer, creates pipe between CPU (m_vertexBuffer) abd GPU
+    /* Bind buffer, creates pipe between CPU (m_vertexBuffer) and GPU
        (GL_ARRAY_BUFFER)    */
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
     glEnableVertexAttribArray(ATTRIB_VERTEX);
@@ -133,8 +124,8 @@ HW2b::paintGL()
     glUniform1f(m_uniform[HW2B][THETA], m_theta);
     /*
     glUniform1i(m_uniform[HW2B][SUBDIV], m_subdivisions);
-    glUniform1i(m_uniform[HW2B][TWIST], m_twist);
     */
+    glUniform1i(m_uniform[HW2B][TWIST], m_twist);
 
     glDrawArrays(GL_TRIANGLES, 0, 3*pow(4, m_subdivisions));
 
