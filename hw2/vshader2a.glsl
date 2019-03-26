@@ -6,6 +6,7 @@ uniform mat4 u_Projection;  // uniform variable for passing projection matrix
 void main() 
 {
     // XXX: PB Code:
+    //  multiply each vertex by the projection matrix
     gl_Position = u_Projection* vec4(a_Position, 0, 1);
     // XXX: End PB Code
 }

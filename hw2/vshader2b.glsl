@@ -13,10 +13,12 @@ uniform int u_Twist;        // Twist flag
 
 // XXX: Code written by PB 2019
 vec2 rotTwist(vec2 p) {
-    float d = sqrt(p.x*p.x + p.y*p.y);
-    float sinTheta = sin(d*u_Theta);
-    float cosTheta = cos(d*u_Theta);
+    float d = sqrt(p.x*p.x + p.y*p.y);  // distance scaler
+    float sinTheta = sin(d*u_Theta);    // find the sine of distance*theta 
+    float cosTheta = cos(d*u_Theta);    // find the cosing of distance*theta
 
+    //  create and return a new vector containing the new positions based on the
+    //  rotation and distance from the origin
     vec2 q = vec2(p.x*cosTheta - p.y*sinTheta, p.x*sinTheta + p.y*cosTheta);
     return q;
 }
@@ -25,7 +27,7 @@ void main()
 {
     if (bool(u_Twist) == true) {
         vec2 twistPos = rotTwist(a_Position);
-        gl_Position = u_Projection * u_Modelview * vec4(twistPos, 0, 1);
+        gl_Position = u_Projection * vec4(twistPos, 0, 1);
     } else {
         gl_Position = u_Projection * u_Modelview * vec4(a_Position, 0, 1);
     }

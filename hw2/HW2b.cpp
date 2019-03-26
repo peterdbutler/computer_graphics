@@ -77,6 +77,8 @@ HW2b::resizeGL(int w, int h)
     // XXX: Code written by PB 2019
     float xmax, ymax;
     float ar = (float) w/h;
+
+    // determine aspect ratio
     if (ar > 1.0) {
         xmax = ar;
         ymax = 1.;
@@ -85,8 +87,10 @@ HW2b::resizeGL(int w, int h)
         ymax = 1/ar;
     }
 
+    // construct a viewport
     glViewport(0, 0, w, h);
 
+    // set projection space:
 	m_projection.setToIdentity();
     m_projection.ortho(-xmax, xmax, -ymax, ymax, -1.0, 1.0); 
     // XXX: End PB Code
@@ -103,15 +107,17 @@ void
 HW2b::paintGL()
 {
     // XXX: Code written by PB 2019
+    // clear buffer bit
     glClear(GL_COLOR_BUFFER_BIT);
 
     /* Bind buffer, creates pipe between CPU (m_vertexBuffer) and GPU
-       (GL_ARRAY_BUFFER)    */
+       (GL_ARRAY_BUFFER), pass vertices */
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
     glEnableVertexAttribArray(ATTRIB_VERTEX);
     glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, false, 0, NULL);
 
-    // pipe colorBuffer to GPU:
+    /* Bind buffer, creates pipe between CPU (m_vertexBuffer) and GPU
+       (GL_ARRAY_BUFFER), pass vertice attributes (colors) */
     glBindBuffer(GL_ARRAY_BUFFER, m_colorBuffer);
     glEnableVertexAttribArray(ATTRIB_COLOR);
     glVertexAttribPointer(ATTRIB_COLOR, 3, GL_FLOAT, false, 0, NULL);
@@ -119,16 +125,16 @@ HW2b::paintGL()
     // "Installs a program object as part of current rendering state:
     glUseProgram(m_program[HW2B].programId());
 
+    // pass modelview, projection matrix, theta, and twist to GPU:
     glUniformMatrix4fv(m_uniform[HW2B][MV], 1, GL_FALSE, m_modelview.constData());
     glUniformMatrix4fv(m_uniform[HW2B][PROJ], 1, GL_FALSE, m_projection.constData());
     glUniform1f(m_uniform[HW2B][THETA], m_theta);
-    /*
-    glUniform1i(m_uniform[HW2B][SUBDIV], m_subdivisions);
-    */
     glUniform1i(m_uniform[HW2B][TWIST], m_twist);
 
+    // instruct GPU on draw mode, group number of vertices appropriately:
     glDrawArrays(GL_TRIANGLES, 0, 3*pow(4, m_subdivisions));
 
+    // Call vshader, fshader program, then close buffer so no accidental GPU writes
     glUseProgram(0);
     glDisableVertexAttribArray(ATTRIB_COLOR);
     glDisableVertexAttribArray(ATTRIB_VERTEX);
@@ -317,7 +323,6 @@ HW2b::initVertexBuffer()
 void
 HW2b::divideTriangle(vec2 a, vec2 b, vec2 c, int count)
 {
-	// TODO: PUT YOUR CODE HERE
     // XXX: Code written by PB 2019
     if (count > 0) {
         // find the midpoint of each line segment:
@@ -330,7 +335,7 @@ HW2b::divideTriangle(vec2 a, vec2 b, vec2 c, int count)
         divideTriangle( b, ab, bc, count-1);
         divideTriangle( c, ac, bc, count-1);
         divideTriangle(ab, ac, bc, count-1);
-    } else triangle(a, b, c);
+    } else triangle(a, b, c);   // base case of recursion
     // XXX: End PB Code
 }
 

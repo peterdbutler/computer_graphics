@@ -71,11 +71,11 @@ void
 HW2a::resizeGL(int w, int h)
 {
     // XXX: Code written by PB 2019
-    // declare, math out some variables
     m_winW = w; m_winH = h;
     float xmax, ymax;
     float ar = (float) w/h;
 
+    // determine aspect ratio
     if (ar > 1.0 ) {
         xmax = ar;
         ymax = 1.;
@@ -85,6 +85,7 @@ HW2a::resizeGL(int w, int h)
         ymax = 1./ar;
     }
 
+    // set projection space
     m_projection.setToIdentity();
     m_projection.ortho(-xmax, xmax, -ymax, ymax, -1.0, 1.0);
     // XXX: End PB Code
@@ -126,16 +127,18 @@ HW2a::paintGL()
 	int w = m_winW / 3;
 	int h = m_winH / 3;
 
-	// use glsl program
     // XXX: Code written by PB 2019
+	// use glsl program
     glUseProgram(m_program[HW2A].programId());
 
+    // pass projection matrix to GPU
     glUniformMatrix4fv( m_uniform[HW2A][PROJ ], 
                         1,
                         GL_FALSE,
                         m_projection.constData()
                       );
 
+    // Draw each grouping of vertices for each drawMode
     for (int i = 0; i < 9; i++) {
         glViewport( (i%3)*w, (i/3)*h, w, h);
         glDrawArrays(DrawModes[i], 0, m_vertNum);
