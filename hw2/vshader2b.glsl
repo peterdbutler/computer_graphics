@@ -13,9 +13,9 @@ uniform int u_Twist;        // Twist flag
 
 // XXX: Code written by PB 2019
 vec2 rotTwist(vec2 p) {
-    float d = sqrt(p.x*p.x + p.y*p.y);  // distance scaler
-    float sinTheta = sin(d*u_Theta);    // find the sine of distance*theta 
-    float cosTheta = cos(d*u_Theta);    // find the cosing of distance*theta
+    float d_Theta = u_Theta * sqrt(p.x*p.x + p.y*p.y);  // distance scaler
+    float sinTheta = sin(d_Theta);    // find the sine of distance*theta 
+    float cosTheta = cos(d_Theta);    // find the cosing of distance*theta
 
     //  create and return a new vector containing the new positions based on the
     //  rotation and distance from the origin

@@ -131,6 +131,9 @@ HW1a::paintGL()
 
     int mode = 0;  // offset for selecting mode in DrawModesp[]
 
+    // increase point size from 1.0 to 3.0 to increase readability
+    glPointSize(3.0);
+
     /*  iterate across x,y coords of window, placing new viewports with a unique GL 
         drawing in each new viewport created, utilizing the same pairs of vertex
         coordinates */

@@ -143,6 +143,8 @@ HW2a::paintGL()
         glViewport( (i%3)*w, (i/3)*h, w, h);
         glDrawArrays(DrawModes[i], 0, m_vertNum);
     }
+
+    glPointSize(3.0);
     // XXX: End PB Code
 
 	// disable vertex shader point size adjustment
