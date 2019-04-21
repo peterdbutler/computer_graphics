@@ -109,7 +109,7 @@ HW3b::initializeGL()
 void
 HW3b::resizeGL(int w, int h)
 {
-	// PUT YOUR CODE (use perspective projection)
+	// TODO: PUT YOUR CODE (use perspective projection)
 }
 
 
@@ -155,12 +155,12 @@ HW3b::paintGL()
 	case TEXTURED_WIREFRAME:
 	case TEXTURED:
 		// draw textured surface
-		// PUT YOUR CODE HERE
+		// TODO: PUT YOUR CODE HERE
 		if(m_displayMode != TEXTURED_WIREFRAME)
 			break;
 	case WIREFRAME:
 		// draw wireframe
-		// PUT YOUR CODE HERE
+		// TODO:PUT YOUR CODE HERE
 		break;
 	case FLAT_COLOR:
 		glUseProgram(m_program[FLAT_SHADER].programId());	
@@ -362,28 +362,28 @@ HW3b::resetMesh()
 				vec.setZ((i==j && i==m_grid/2) ? 1.0f : 0.0f);
 				break;
 			case HOLE:
-				// PUT YOUR CODE HERE
+				// TODO: PUT YOUR CODE HERE
 				break;
 			case DIAGONALWALL:
-				// PUT YOUR CODE HERE
+				// TODO: PUT YOUR CODE HERE
 				break;
 			case SIDEWALL:
-				// PUT YOUR CODE HERE
+				// TODO: PUT YOUR CODE HERE
 				break;
 			case DIAGONALBLOCK:
-				// PUT YOUR CODE HERE
+				// TODO: PUT YOUR CODE HERE
 				break;
 			case MIDDLEBLOCK:
-				// PUT YOUR CODE HERE
+				// TODO: PUT YOUR CODE HERE
 				break;
 			case CORNERBLOCK:
-				// PUT YOUR CODE HERE
+				// TODO: PUT YOUR CODE HERE
 				break;
 			case HILL:
-				// PUT YOUR CODE HERE
+				// TODO: PUT YOUR CODE HERE
 				break;
 			case HILLFOUR:
-				// PUT YOUR CODE HERE
+				// TODO: PUT YOUR CODE HERE
 				break;
 		}
 	   }

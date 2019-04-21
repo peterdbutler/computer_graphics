@@ -1,8 +1,11 @@
 #version 330
+// TODO: WIRE_SHADER
+// TODO: u_View       == VIEW
+// TODO: u_Projection == PROJ
 
-// PUT YOUR CODE HERE
+// TODO: PUT YOUR CODE HERE
 
 void main() 
 {
-	// PUT YOUR CODE HERE
+	// TODO: PUT YOUR CODE HERE
 }

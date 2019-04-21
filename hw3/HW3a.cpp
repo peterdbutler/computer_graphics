@@ -8,6 +8,7 @@
 // ===============================================================
 
 #include "HW3a.h"
+//#include <cmath>
 
 // shader ID
 enum {TEXTURE, WIREFRAME};
@@ -122,27 +123,64 @@ HW3a::paintGL()
 
 	// bind vertex buffer to the GPU; enable buffer to be copied to the
 	// attribute vertex variable and specify data format
-	// PUT YOUR CODE HERE
+    // XXX: Code written by PB 2019
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+    glEnableVertexAttribArray(ATTRIB_VERTEX);
+    glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, false, 0, NULL);
 
 	// bind texture coord buffer to the GPU; enable buffer to be copied to the
 	// attribute texture coordinate variable and specify data format
-	// PUT YOUR CODE HERE
-
+    glBindBuffer(GL_ARRAY_BUFFER, m_texBuffer);
+    glEnableVertexAttribArray(ATTRIB_TEXCOORD);
+    glVertexAttribPointer(ATTRIB_TEXCOORD, 2, GL_FLOAT, false, 0, NULL);
+        
 	// use texture glsl program
-	// PUT YOUR CODE HERE
+    glUseProgram(m_program[TEXTURE].programId());
 
 	// pass parameters to vertex shader
-	// PUT YOUR CODE HERE
+    glUniformMatrix4fv(m_uniform[TEXTURE][MV],
+                       1,
+                       GL_FALSE,
+                       m_modelview.constData());
+    glUniformMatrix4fv(m_uniform[TEXTURE][PROJ],
+                       1,
+                       GL_FALSE,
+                       m_projection.constData());
+    glUniform1f(m_uniform[TEXTURE][THETA], m_theta);
+    glUniform1i(m_uniform[TEXTURE][TWIST], m_twist);
 
 	// draw texture mapped triangles
-	// PUT YOUR CODE HERE
-
+    glDrawArrays(GL_TRIANGLES, 0, 3*pow(4, m_subdivisions));
+    
 	glLineWidth(1.5f);
 
 	// draw wireframe, if necessary
 	if(m_wire) {
-		// PUT YOUR CODE HERE
+        glUseProgram(m_program[WIREFRAME].programId());
+        glColor3f(1.0, 1.0, 1.0);
+
+        glUniformMatrix4fv(m_uniform[WIREFRAME][MV],
+                           1,
+                           GL_FALSE,
+                           m_modelview.constData());
+        glUniformMatrix4fv(m_uniform[WIREFRAME][PROJ],
+                           1,
+                           GL_FALSE, 
+                           m_projection.constData());
+
+        glUniform1f(m_uniform[WIREFRAME][THETA], m_theta);
+        glUniform1i(m_uniform[WIREFRAME][TWIST], m_twist);
+
+    	// draw texture mapped triangles
+        for (int i=0; i < m_numPoints; i+=3 ) {
+            glDrawArrays(GL_LINE_LOOP, i, 3);
+        }
 	}
+
+    glUseProgram(0);
+    glDisableVertexAttribArray(ATTRIB_VERTEX);
+    glDisableVertexAttribArray(ATTRIB_TEXCOORD);
+    // XXX: End PB 2019
 }
 
 
@@ -344,7 +382,19 @@ HW3a::initVertexBuffer()
 		vec2(-0.65f, -0.375f)
 	};
 
-	// PUT YOUR CODE HERE
+    // XXX: Code written by PB 2019
+    divideTriangle(vertices[0], vertices[1], vertices[2], m_subdivisions);
+    m_numPoints = (int) m_points.size();
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, m_numPoints*sizeof(vec2), &m_points[0], GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, m_texBuffer);
+    glBufferData(GL_ARRAY_BUFFER, m_numPoints*sizeof(vec2), &m_coords[0], GL_STATIC_DRAW);
+
+    m_points.clear();
+    m_coords.clear();
+    // XXX: End PB 2019
 }
 
 
@@ -357,7 +407,18 @@ HW3a::initVertexBuffer()
 void
 HW3a::divideTriangle(vec2 a, vec2 b, vec2 c, int count)
 {
-	// PUT YOUR CODE HERE
+    // XXX: Code written by PB 2019
+    if (count > 0) {
+        vec2 ab = vec2((a[0]+b[0])/2.0, (a[1]+b[1])/2.0);
+        vec2 bc = vec2((b[0]+c[0])/2.0, (b[1]+c[1])/2.0);
+        vec2 ca = vec2((c[0]+a[0])/2.0, (c[1]+a[1])/2.0);
+
+        divideTriangle(  a, ab, ca, count-1);
+        divideTriangle( ab,  b, bc, count-1);
+        divideTriangle( ca, bc,  c, count-1);
+        divideTriangle( ab, bc, ca, count-1);
+    } else { triangle(a, b, c); }
+    // XXX: End PB 2019
 }
 
 

@@ -5,6 +5,7 @@
 // HW2a.cpp - HW2a class
 //
 // Written by: George Wolberg, 2019
+// Modified by: Peter Butler, 2019
 // ===============================================================
 
 #include "HW2a.h"

@@ -5,6 +5,7 @@
 // HW2b.cpp - HW2b class
 //
 // Written by: George Wolberg, 2019
+// Modified by: Peter Butler, 2019
 // ===============================================================
 
 #include "HW2b.h"
@@ -116,7 +117,7 @@ HW2b::paintGL()
     glEnableVertexAttribArray(ATTRIB_VERTEX);
     glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, false, 0, NULL);
 
-    /* Bind buffer, creates pipe between CPU (m_vertexBuffer) and GPU
+    /* Bind buffer, creates pipe between CPU (m_colorBuffer) and GPU
        (GL_ARRAY_BUFFER), pass vertice attributes (colors) */
     glBindBuffer(GL_ARRAY_BUFFER, m_colorBuffer);
     glEnableVertexAttribArray(ATTRIB_COLOR);

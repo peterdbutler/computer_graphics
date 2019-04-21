@@ -1,10 +1,10 @@
 #version 150
 
-in	vec2	a_Position;	// attribute variable: position vector
-uniform mat4	u_Modelview;	// uniform variable for passing modelview matrix
-uniform mat4	u_Projection;	// uniform variable for passing projection matrix
-uniform float	u_Theta;	// Theta parameter
-uniform int	u_Twist;	// Twist flag
+in vec2 a_Position;	        // attribute variable: position vector
+uniform mat4 u_Modelview;   // uniform variable for passing modelview matrix
+uniform mat4 u_Projection;  // uniform variable for passing projection matrix
+uniform float u_Theta;      // Theta parameter
+uniform int u_Twist;        // Twist flag
 
 void main() {
 	if(u_Twist == 0) {

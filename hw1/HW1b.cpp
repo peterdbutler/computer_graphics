@@ -5,6 +5,7 @@
 // HW1b.cpp - HW1b class
 //
 // Written by: George Wolberg, 2019
+// Modified by: Peter Butler, 2019
 // ===============================================================
 
 #include "HW1b.h"

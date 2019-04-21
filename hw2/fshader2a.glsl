@@ -1,6 +1,6 @@
 #version 330
+// Written by: Peter Butler, 2019
 
-// XXX: Full code written by PB
 out vec4 fragColor;
 
 void main() 

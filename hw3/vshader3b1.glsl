@@ -1,8 +1,13 @@
 #version 330
+// XXX: TEX_SHADER
 
-// PUT YOUR CODE HERE
+// TODO: u_View       == VIEW
+// TODO: u_Projection == PROJ
+// TODO: u_Sampler    == SAMPLER
+
+// TODO: PUT YOUR CODE HERE
 
 void main() 
 {
-	// PUT YOUR CODE HERE
+	// TODO: PUT YOUR CODE HERE
 }
