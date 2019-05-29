@@ -37,40 +37,40 @@ vec2 poissonDisk[16] = vec2[](
 void main()
 {
 	// Light emission properties
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 	
 	// Material properties
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// Normal of the computed fragment, in camera space
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// Direction of the light (from the fragment to the light)
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// Cosine of the angle between the normal and the light direction, 
 	// clamped above 0
 	//  - light is at the vertical of the triangle -> 1
 	//  - light is perpendiular to the triangle -> 0
 	//  - light is behind the triangle -> 0
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 	
 	// Eye vector (towards the camera)
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// Direction in which the triangle reflects the light
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// Cosine of the angle between the Eye vector and the Reflect vector,
 	// clamped to 0
 	//  - Looking into the reflection -> 1
 	//  - Looking elsewhere -> < 1
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 	
 	float visibility = 1.0;
 
 	// ...variable bias
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// Sample the shadow map 4 times
 	for (int i=0; i<4; ++i) {

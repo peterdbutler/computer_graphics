@@ -1,4 +1,5 @@
 #version 330
+// XXX: TEX_SHADER (fragment)
 
 // Interpolated values from the vertex shaders
 in vec2 v_TexCoord;

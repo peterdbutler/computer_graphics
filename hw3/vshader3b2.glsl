@@ -36,6 +36,7 @@ void main()
         // Normal of the the vertex, in camera space
         Normal_cameraspace = ( u_View * vec4(a_Normal, 0)).xyz;
 
-        // Only correct if ModelMatrix does not scale the model ! Use its inverse transpose if not.
+        /* Only correct if ModelMatrix does not scale the model 
+           ! Use its inverse transpose if not. */
         vColor = a_Color;
 }

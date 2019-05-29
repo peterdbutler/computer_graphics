@@ -5,6 +5,7 @@
 // HW4a.cpp - HW4a class
 //
 // Written by: George Wolberg, 2019
+// Modified by: Peter Butler, 2019
 // ===============================================================
 
 #include "HW4a.h"
@@ -122,13 +123,13 @@ HW4a::paintGL()
 {
 
 	// clear color and depth buffers
-// PUT YOUR CODE HERE
+    // TODO:  PUT YOUR CODE HERE
 
 	// rotate light source around the y-axis
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// init projection matrix
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// setup camera view
 	glLoadIdentity();
@@ -145,7 +146,7 @@ HW4a::paintGL()
 	glMultMatrixf(m_cameraView.constData());
 
 	// update the position of light0
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// enable lighting and color material
 	glEnable(GL_LIGHTING);
@@ -155,17 +156,17 @@ HW4a::paintGL()
 	glMaterialfv(GL_FRONT, GL_SPECULAR, m_gray);
 
 	// draw the object
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// disable lighting
 	glDisable(GL_COLOR_MATERIAL);
 	glDisable(GL_LIGHTING);
 
 	// draw object's shadow (projected onto the xz plane)
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// draw the light source
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// draw the xz floor
 	glColor4f(.5f, .5f, .5f, 1);
@@ -206,7 +207,7 @@ HW4a::controlPanel()
 void 
 HW4a::drawSphere(int lats, int longs)
 {
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 }
 
 

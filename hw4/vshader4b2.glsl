@@ -28,20 +28,20 @@ void main()
 {
 
 	// Output position of the vertex, in clip space : MVP * position
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 	
 	// Position of the vertex, in worldspace : M * position
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// Vector that goes from the vertex to the camera, in camera space.
 	// In camera space, the camera is at the origin (0,0,0).
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	// Vector that goes from the vertex to the light, in camera space
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 	
 	// Normal of the the vertex, in camera space
-// PUT YOUR CODE HERE
+    // TODO: PUT YOUR CODE HERE
 
 	vColor = a_Color;
 }

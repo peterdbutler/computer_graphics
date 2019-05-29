@@ -1,5 +1,5 @@
 #version 330
-// XXX: TEX_SHADER
+// XXX: TEX_SHADER (vertex)
 
 // input vertex data
 in vec3  a_Position;

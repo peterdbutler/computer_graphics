@@ -5,20 +5,8 @@
 // HW3b.cpp - HW3b class
 //
 // Written by: George Wolberg, 2019
+// Modified by: Peter Butler, 2019
 // ===============================================================
-// TODO: paintGL():
-// TODO:    TEXTURED 
-// TODO:    WIREFRAME 
-//
-// TODO: resetMesh():
-// TODO:    HOLE                // done?
-// TODO:    DIAGONALWALL        // done?
-// TODO:    SIDEWALL            // done?
-// TODO:    DIAGONALBLOCK       // done?
-// TODO:    MIDDLEBLOCK         // done?
-// TODO:    CORNERBLOCK         // done?
-// TODO:    HILL                // done?
-// TODO:    HILLFOUR            // done?
 
 
 #include "HW3b.h"
@@ -202,15 +190,22 @@ HW3b::paintGL()
         glUseProgram(m_program[TEX_SHADER].programId());
 
         // Pass data through buffers
-        glUniformMatrix4fv(m_uniform[TEX_SHADER][VIEW], 1, GL_FALSE, m_camera->view().constData());
-        glUniformMatrix4fv(m_uniform[TEX_SHADER][PROJ], 1, GL_FALSE, m_projection.constData());
+        glUniformMatrix4fv(m_uniform[TEX_SHADER][VIEW], 
+                           1,
+                           GL_FALSE, 
+                           m_camera->view().constData());
+        glUniformMatrix4fv(m_uniform[TEX_SHADER][PROJ], 
+                           1, 
+                           GL_FALSE, 
+                           m_projection.constData());
 		glUniform1i(m_uniform[TEX_SHADER][SAMPLER], 0);
         
-        // NOTE: Add below line to pass LGHTDIR along?
         glUniform3fv(m_uniform[TEX_SHADER][LIGHTDIR], 1, &m_light->eye()[0]);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indicesBuffer[0]);
-		glDrawElements(GL_TRIANGLE_STRIP, (GLsizei) m_indices_triangles.size(), GL_UNSIGNED_SHORT, 0);
+		glDrawElements(GL_TRIANGLE_STRIP, 
+                       (GLsizei) m_indices_triangles.size(),
+                       GL_UNSIGNED_SHORT, 0);
         // XXX: End PB code
         
 		if (m_displayMode != TEXTURED_WIREFRAME)
@@ -222,11 +217,20 @@ HW3b::paintGL()
         glUseProgram(m_program[WIRE_SHADER].programId());
 
         // Pass data through buffers
-        glUniformMatrix4fv(m_uniform[WIRE_SHADER][VIEW], 1, GL_FALSE, m_camera->view().constData());
-        glUniformMatrix4fv(m_uniform[WIRE_SHADER][PROJ], 1, GL_FALSE, m_projection.constData());
+        glUniformMatrix4fv(m_uniform[WIRE_SHADER][VIEW],
+                           1,
+                           GL_FALSE,
+                           m_camera->view().constData());
+        glUniformMatrix4fv(m_uniform[WIRE_SHADER][PROJ],
+                           1,
+                           GL_FALSE,
+                           m_projection.constData());
        
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indicesBuffer[0]);
-		glDrawElements(GL_LINES, (GLsizei) m_indices_triangles.size(), GL_UNSIGNED_SHORT, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indicesBuffer[1]);
+		glDrawElements(GL_LINES, 
+                       (GLsizei) m_indices_wireframe.size(),
+                       GL_UNSIGNED_SHORT, 
+                       0);
         // XXX: End PB code
 		break;
 	case FLAT_COLOR:
@@ -428,43 +432,36 @@ HW3b::resetMesh()
 			case SPIKE:
 				vec.setZ( (i==j && i==m_grid/2) ? 1.0f : 0.0f );
 				break;
+            // XXX: Code written by PB 2019
 			case HOLE:
-				// TODO: PUT YOUR CODE HERE
                 vec.setZ( (!((i > m_grid/3   && j > m_grid/3) && 
-                             (i < m_grid*2/3 && j < m_grid*2/3) )) ? m_grid/70.0 : 0.0f);
+                             (i < m_grid*2/3 && j < m_grid*2/3) )) ? 0.5f : 0.0f);
 				break;
 			case DIAGONALWALL:
-				// TODO: PUT YOUR CODE HERE
-                vec.setZ( (((m_grid-i)-j<3) && ((m_grid-i)-j > 0)) ? m_grid/70.0 : 0.0f);
+                vec.setZ( (((m_grid-i)-j<3) && ((m_grid-i)-j > 0)) ? 0.5f : 0.0f);
 				break;
 			case SIDEWALL:
-				// TODO: PUT YOUR CODE HERE
-                vec.setZ( (i==1) ? m_grid/7.0 : 0.0);
+                vec.setZ( (i==1) ? 0.5f : 0.0);
 				break;
 			case DIAGONALBLOCK:
-				// TODO: PUT YOUR CODE HERE
-                 vec.setZ(((m_grid-i)-j<3) ? m_grid/70.0 : 0.0f);
+                 vec.setZ(((m_grid-i)-j<3) ? 0.5f : 0.0f);
 				break;
 			case MIDDLEBLOCK:
-				// TODO: PUT YOUR CODE HERE
                 vec.setZ(( (i > m_grid/3   && j > m_grid/3) &&
-                          (i < m_grid*2/3 && j < m_grid*2/3) ) ? m_grid/70.0 : 0.0f);
+                          (i < m_grid*2/3 && j < m_grid*2/3) ) ? 0.5f : 0.0f);
 				break;
 			case CORNERBLOCK:
-				// TODO: PUT YOUR CODE HERE
-                vec.setZ(((i > m_grid*3/4) && (j > m_grid*3/4)) ? m_grid/70.0 : 0.0f);
+                vec.setZ(((i > m_grid*3/4) && (j > m_grid*3/4)) ? 0.5f : 0.0f);
 				break;
 			case HILL:
-				// TODO: PUT YOUR CODE HERE
-                // TODO: check if (float) in denom is necessary
                 vec.setZ(( sin(M_PI * ((float)i / (float)m_grid)) +
-                           sin(M_PI * ((float)j / (float)m_grid) ))* m_grid/70.0); 
+                           sin(M_PI * ((float)j / (float)m_grid) ))* 0.5f); 
 				break;
 			case HILLFOUR:
-				// TODO: PUT YOUR CODE HERE
                 vec.setZ(( sin(M_PI*2 * ((float)i / (float)m_grid)) +
-                           sin(M_PI*2 * ((float)j / (float)m_grid) ))* m_grid/6.0); 
+                           sin(M_PI*2 * ((float)j / (float)m_grid) ))* 0.5f); 
 				break;
+            // XXX: End PB code
 		}
 	   }
 	}
